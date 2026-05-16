@@ -3,6 +3,7 @@ import { Loader } from '../Loader';
 import { Todo } from '../../types/Todo';
 import { getUser } from '../../api';
 import { User } from '../../types/User';
+import classNames from 'classnames';
 
 type Props = {
   todo: Todo;
@@ -23,7 +24,7 @@ export const TodoModal: React.FC<Props> = ({ todo, onClose }) => {
 
   return (
     <div className="modal is-active" data-cy="modal">
-      <div className="modal-background" />
+      <div className="modal-background" onClick={onClose} />
 
       {isLoading ? (
         <Loader />
@@ -54,11 +55,13 @@ export const TodoModal: React.FC<Props> = ({ todo, onClose }) => {
             <p className="block" data-cy="modal-user">
               {/* <strong className="has-text-success">Done</strong> */}
               <strong
-                className={
-                  todo.completed ? 'has-text-success' : 'has-text-danger'
-                }
+                className={classNames({
+                  'has-text-success': todo.completed,
+                  'has-text-danger': !todo.completed,
+                })}
               >
-                {todo.completed ? 'Done' : 'Planned'}
+                {todo.completed && 'Done'}
+                {!todo.completed && 'Planned'}
               </strong>
 
               {' by '}
